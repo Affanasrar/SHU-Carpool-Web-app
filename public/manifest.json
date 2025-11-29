@@ -1,10 +1,14 @@
 {
   "name": "SHU CarPool",
   "short_name": "SHU CarPool",
+  "description": "A carpooling application for SHU students",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#525252",
   "theme_color": "#525252",
+  "categories": ["transportation"],
   "icons": [
     {
       "src": "/uniRide.webp",
@@ -13,19 +17,19 @@
       "purpose": "any"
     },
     {
-      "src": "icons/uniRide.webp",
+      "src": "/uniRide.webp",
       "sizes": "512x512",
       "type": "image/webp",
       "purpose": "any"
     },
     {
-      "src": "icons/logo.webp",
+      "src": "/logo.webp",
       "sizes": "192x192",
       "type": "image/webp",
       "purpose": "maskable"
     },
     {
-      "src": "icons/logo.webp",
+      "src": "/logo.webp",
       "sizes": "512x512",
       "type": "image/webp",
       "purpose": "maskable"
