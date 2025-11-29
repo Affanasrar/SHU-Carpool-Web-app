@@ -1,10 +1,10 @@
 {
-  "name": "UniRide",
-  "short_name": "UniRide",
+  "name": "SHU CarPool",
+  "short_name": "SHU CarPool",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#6d74fc",
-  "theme_color": "#6d74fc",
+  "background_color": "#525252",
+  "theme_color": "#525252",
   "icons": [
     {
       "src": "/uniRide.webp",
