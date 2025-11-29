@@ -1,8 +1,14 @@
 {
-  "name": "UniRide",
-  "short_name": "UniRide",
+  "id": "/",
+  "name": "SHU CarPool",
+  "short_name": "SHU CarPool",
+  "description": "SHU CarPool — find and share rides across campus",
+  "lang": "en-US",
+  "dir": "ltr",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#6d74fc",
   "theme_color": "#6d74fc",
   "icons": [
@@ -13,22 +19,58 @@
       "purpose": "any"
     },
     {
-      "src": "icons/uniRide.webp",
+      "src": "/uniRide.webp",
       "sizes": "512x512",
       "type": "image/webp",
       "purpose": "any"
     },
     {
-      "src": "icons/logo.webp",
+      "src": "/logo.webp",
       "sizes": "192x192",
       "type": "image/webp",
       "purpose": "maskable"
     },
     {
-      "src": "icons/logo.webp",
+      "src": "/logo.webp",
       "sizes": "512x512",
       "type": "image/webp",
       "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Find a Ride",
+      "short_name": "Find Ride",
+      "description": "Find available rides near you",
+      "url": "/findRide",
+      "icons": [
+        {
+          "src": "/logo.webp",
+          "sizes": "192x192",
+          "type": "image/webp",
+          "purpose": "any"
+        }
+      ]
+    },
+    {
+      "name": "Create a Ride",
+      "short_name": "Create Ride",
+      "description": "Create a new ride",
+      "url": "/createRide",
+      "icons": [
+        {
+          "src": "/logo.webp",
+          "sizes": "192x192",
+          "type": "image/webp",
+          "purpose": "any"
+        }
+      ]
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+carpool",
+      "url": "/?ref=%s"
     }
   ]
 }
