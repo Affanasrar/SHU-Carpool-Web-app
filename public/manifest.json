@@ -14,7 +14,13 @@
   "categories": ["transportation", "lifestyle"],
   "icons": [
     {
-      "src": "/logo (1).webp",
+      "src": "/uniRide.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo1.webp",
       "sizes": "192x192",
       "type": "image/webp",
       "purpose": "any"
