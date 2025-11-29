@@ -62,26 +62,13 @@ function closeErrorPage() {
 }
 
 const departments = [
-    "Civil Engineering",
-    "Computer Systems Engineering",
-    "Electrical Engineering",
-    "Electronic Engineering",
+    "Computer Science",
+    "Artificial Intelligence",
     "Software Engineering",
-    "Mechanical Engineering",
-    "Mechatronics Engineering",
-    "Telecommunication Engineering",
-    "Chemical Engineering",
-    "Environmental Engineering",
-    "Bioinformatics Engineering",
-    "Industrial Engineering",
-    "Information Technology",
-    "Architecture",
-    "Urban and Regional Planning",
-    "Management Sciences",
-    "Mathematics",
-    "Physics",
-    "Chemistry",
-    "English"
+    "Bio-Medical Engineering",
+    "Pharmacy",
+    "Acounting and Fianance",
+    "BBA"
 ];
     
 function autocomplete(inputElement) {
