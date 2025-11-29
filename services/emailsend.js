@@ -46,7 +46,7 @@ async function sendemail(Url, email, firstName, lastName) {
         <p class="reset-link"><a href="${Url}">Reset Password</a></p>
         <p>If you did not request a password reset, please ignore this email or contact support if you have questions.</p>
         <p>Thank you,</p>
-        <p>UniRide</p>
+        <p>SHU CarPool</p>
     </div>
 </body>
 </html>

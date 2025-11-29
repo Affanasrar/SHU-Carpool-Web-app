@@ -360,7 +360,7 @@ function manageRideDetailsTempleteForDriver(ride) {
 }
 
 function openWhatsApp(phone) {
-    window.open(`https://wa.me/92${phone}?text=Hello%20from%20UniRide`, '_blank');
+    window.open(`https://wa.me/92${phone}?text=Hello%20from%20SHUCarpool`, '_blank');
 }
 
 function OpenFindRide(id) {
