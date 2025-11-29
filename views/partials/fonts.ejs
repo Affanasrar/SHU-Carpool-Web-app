@@ -32,3 +32,63 @@
       }
     }
   </script>
+
+      <script>
+        (function () {
+          // PWA install UI + ensure SW controls page
+          let deferredPrompt = null;
+
+          const createInstallButton = () => {
+            const btn = document.createElement('button');
+            btn.id = 'pwa-install-btn';
+            btn.textContent = 'Install UniRide';
+            btn.style.cssText = 'position:fixed;right:12px;bottom:12px;padding:10px 14px;border-radius:8px;background:#6d74fc;color:#fff;border:none;z-index:10000;display:none;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-weight:600;';
+            return btn;
+          };
+
+          let installBtn = null;
+          document.addEventListener('DOMContentLoaded', () => {
+            // create button but don't show it until beforeinstallprompt
+            installBtn = createInstallButton();
+            try { document.body.appendChild(installBtn); } catch (e) { /* ignore if body not available */ }
+          });
+
+          window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (!installBtn) {
+              installBtn = createInstallButton();
+              document.body.appendChild(installBtn);
+            }
+            installBtn.style.display = 'block';
+          });
+
+          window.addEventListener('appinstalled', () => {
+            console.log('PWA installed');
+          });
+
+          document.addEventListener('click', async (ev) => {
+            if (ev.target && ev.target.id === 'pwa-install-btn') {
+              ev.target.style.display = 'none';
+              if (!deferredPrompt) return;
+              try {
+                deferredPrompt.prompt();
+                const choice = await deferredPrompt.userChoice;
+                console.log('PWA install choice:', choice.outcome);
+              } catch (err) {
+                console.error('PWA install error', err);
+              }
+              deferredPrompt = null;
+            }
+          });
+
+          // When SW controller changes (SW activated and now controls page), reload once
+          if (navigator.serviceWorker) {
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+              if (sessionStorage.getItem('swReloaded')) return;
+              sessionStorage.setItem('swReloaded', '1');
+              window.location.reload();
+            });
+          }
+        })();
+      </script>
