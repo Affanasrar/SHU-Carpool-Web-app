@@ -21,15 +21,10 @@ const PRECACHE_URLS = [
   "/home/plus.webp",
   "/home/search.webp",
   "/offline.html",
-  "/manifest.json",
 ];
-
-// Service Worker ready for PWA
-console.log("Service Worker script loaded");
 
 // Install: Precache essential files
 self.addEventListener("install", (event) => {
-  console.log("Service Worker installing...");
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
       try {
@@ -44,7 +39,6 @@ self.addEventListener("install", (event) => {
 
 // Activate: Clean old caches
 self.addEventListener("activate", (event) => {
-  console.log("Service Worker activating...");
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(

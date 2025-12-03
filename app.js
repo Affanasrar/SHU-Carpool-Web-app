@@ -24,7 +24,7 @@ app.use(cookieParser());
 // Set correct MIME type for manifest.json
 app.get('/manifest.json', (req, res) => {
     res.setHeader('Content-Type', 'application/manifest+json');
-    res.setHeader('Cache-Control', 'public, max-age=604800');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.sendFile(path.join(__dirname, 'public', 'manifest.json'));
 });
 
@@ -32,7 +32,7 @@ app.get('/manifest.json', (req, res) => {
 app.get('/service-worker.js', (req, res) => {
     res.setHeader('Content-Type', 'application/javascript');
     res.setHeader('Service-Worker-Allowed', '/');
-    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.sendFile(path.join(__dirname, 'public', 'service-worker.js'));
 });
 
@@ -47,7 +47,9 @@ app.use('/help',complaintRoutes);
 app.use(express.static(path.join(__dirname, "public"), { 
     setHeaders: (res, path) => {
         res.status(200);
-        res.setHeader('Cache-Control', 'public, max-age=604800');
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
     }
 }));
 

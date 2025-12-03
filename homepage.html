@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="/logo.webp" type="image/x-icon">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/logo.webp">
+<meta name="theme-color" content="#6d74fc">
+<meta name="description" content="A carpooling application for SHU students">
+
+<script>
+    // Register service worker immediately and on load
+    if ("serviceWorker" in navigator) {
+      const registerServiceWorker = async () => {
+        try {
+          const registration = await navigator.serviceWorker.register("/service-worker.js", {
+            scope: "/"
+          });
+          console.log("Service Worker registered successfully:", registration);
+        } catch (error) {
+          console.error("Service Worker registration failed:", error);
+        }
+      };
+      
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", registerServiceWorker);
+      } else {
+        registerServiceWorker();
+      }
+    }
+  </script>
+        <title>SHU CarPool</title>
+        <link rel="stylesheet" href="/style.css">
+</head>
+
+<body class="font-[Inter]">
+
+    <div class="flex-col bg-[#525252] min-h-dvh flex items-center justify-center transition duration-1000 ease-out"
+        id="splash-screen">
+        <img src="/uniRide.webp" alt="logo" class="w-52">
+    </div>
+
+    <div class="flex-col justify-between min-h-dvh px-6 py-16 hidden transition duration-1000 ease-in"
+     id="main-content">
+
+        <h1 class="text-3xl font-bold text-[#6d74fc] self-center">Welcome!</h1>
+
+        <div class="flex flex-col items-center">
+            <img src="logo.webp" alt="UniRide Logo" class="w-48">
+        </div>
+
+        <div class="flex flex-col items-center space-y-4">
+            
+            <button onclick="window.location.href='/signup';"
+                class="bg-[#6d74fc] text-white font-medium text-sm py-3 px-12 rounded-full shadow-lg hover:bg-[#5e63d0]">
+                CREATE AN ACCOUNT
+            </button>
+
+            <p class="text-gray-600 font-medium">Already have an account?
+                <a href="/login" class="text-[#6d74fc] font-semibold hover:underline">Login</a>
+            </p>
+        </div>
+    </div>
+</body>
+<script src="/index/script.js"></script>
+</html>
