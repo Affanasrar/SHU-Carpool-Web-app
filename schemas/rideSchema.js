@@ -1,14 +1,15 @@
 const { z } = require("zod");
 const mongoose = require("mongoose");
 
-const locationRegex = /^[A-Za-z\s,]+$/;
+// REMOVE THE OLD REGEX. It is too strict for Karachi addresses.
+// const locationRegex = /^[A-Za-z\s,]+$/; 
 
 const createRideSchema = z.object({
-    from: z.string().trim().min(1, "Starting point is required")
-        .regex(locationRegex, "Please enter valid location"),
+    // 1. Allow any string for location. 
+    // We rely on the frontend dropdown + basic string check here.
+    from: z.string().trim().min(1, "Starting point is required"),
 
-    to: z.string().trim().min(1, "Destination is required")
-        .regex(locationRegex, "Please enter valid location"),
+    to: z.string().trim().min(1, "Destination is required"),
 
     datetime: z.string()
         .refine((val) => {
@@ -19,7 +20,7 @@ const createRideSchema = z.object({
     fare: z.number()
         .int("Fare must be an integer")
         .min(0, "Fare cannot be less than 0")
-        .max(150, "Fare cannot exceed 150"),
+        .max(1000, "Fare cannot exceed 1000"), // 2. INCREASED LIMIT (150 is too low for cars)
 
     seats: z.number()
         .int("Seats must be an integer")
