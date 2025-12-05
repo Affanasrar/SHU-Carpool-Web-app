@@ -37,14 +37,18 @@ async function approvePaymentRequest(req, res) {
     await user.save();
 
     // Send approval email using Resend
-    try {
-      await sendMembershipApprovalEmail(user.email, user.firstName, user.lastName);
-    } catch (emailErr) {
-      console.error('Failed to send approval email:', emailErr);
+    const emailResult = await sendMembershipApprovalEmail(user.email, user.firstName, user.lastName);
+    if (!emailResult.success) {
+      console.error('Failed to send approval email:', emailResult.error);
       // Don't fail the approval if email fails - still mark as approved
+    } else {
+      console.log('Approval email sent successfully');
     }
 
-    return res.status(200).json({ message: 'Payment approved and user upgraded to premium.' });
+    return res.status(200).json({ 
+      message: 'Payment approved and user upgraded to premium.',
+      emailSent: emailResult.success
+    });
   } catch (err) {
     console.error('Error approving payment request:', err);
     return res.status(500).json({ message: 'Server error' });

@@ -61,9 +61,20 @@ async function sendemail(Url, email, firstName, lastName) {
 }
 
 async function sendMembershipApprovalEmail(email, firstName, lastName) {
-  const resend = new Resend(process.env.RESEND_EMAIL_API_KEY);
-  
-  const emailTemplate = `
+  try {
+    if (!process.env.RESEND_EMAIL_API_KEY) {
+      console.error('RESEND_EMAIL_API_KEY is not set');
+      return { success: false, error: 'Email API key missing' };
+    }
+
+    if (!process.env.SENDER_EMAIL) {
+      console.error('SENDER_EMAIL is not set');
+      return { success: false, error: 'Sender email not configured' };
+    }
+
+    const resend = new Resend(process.env.RESEND_EMAIL_API_KEY);
+    
+    const emailTemplate = `
 <html>
 <head>
     <style>
@@ -137,12 +148,29 @@ async function sendMembershipApprovalEmail(email, firstName, lastName) {
 </html>
 `;
 
-  await resend.emails.send({
-    from: process.env.SENDER_EMAIL,
-    to: email,
-    subject: '✓ Your SHU Carpool Membership is Approved!',
-    html: emailTemplate
-  });
+    console.log(`Sending membership approval email to ${email}...`);
+    
+    const response = await resend.emails.send({
+      from: process.env.SENDER_EMAIL,
+      to: email,
+      subject: '✓ Your SHU Carpool Membership is Approved!',
+      html: emailTemplate
+    });
+
+        console.log(`Resend response for ${email}:`, response);
+
+        // Resend returns an `error` field when the request was invalid (e.g. unverified domain)
+        if (response && response.error) {
+            const errMsg = response.error.message || JSON.stringify(response.error);
+            console.error(`Resend error sending email to ${email}:`, errMsg);
+            return { success: false, error: errMsg, data: response };
+        }
+
+        return { success: true, data: response };
+  } catch (error) {
+    console.error(`Error sending membership approval email to ${email}:`, error);
+    return { success: false, error: error.message || 'Failed to send email' };
+  }
 }
 
 module.exports = { sendemail, sendMembershipApprovalEmail };
