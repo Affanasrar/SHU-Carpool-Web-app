@@ -147,7 +147,7 @@ async function sendMembershipApprovalEmail(email, firstName, lastName) {
             <li>Track your ride history</li>
         </ul>
         <p>
-            <a href="${process.env.CLIENT_URL || 'https://shu-carpool.onrender.com/home'}/home" class="cta">Go to SHU Carpool</a>
+            <a href="${process.env.CLIENT_URL || 'https://www.shucarpool.site'}/home" class="cta">Go to SHU Carpool</a>
         </p>
         <p style="margin-top: 32px; color: #999; font-size: 12px;">
             If you have any questions or need support, please contact us.
