@@ -16,7 +16,15 @@ async function ensureAdmin(req, res, next) {
   }
 }
 
+// Dashboard UI page (shows pending payment requests)
+router.get('/dashboard', restrictToUserlogin, ensureAdmin, (req, res) => {
+  return res.render('adminDashboard');
+});
+
+// API endpoint to fetch pending payments
 router.get('/payments/pending', restrictToUserlogin, ensureAdmin, adminController.getPendingPayments);
+
+// API endpoint to approve a payment request
 router.post('/payments/:id/approve', restrictToUserlogin, ensureAdmin, adminController.approvePaymentRequest);
 
 module.exports = router;
