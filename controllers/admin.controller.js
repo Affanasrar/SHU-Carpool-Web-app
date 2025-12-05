@@ -1,6 +1,6 @@
 const PaymentRequest = require('../models/paymentRequest.models.js');
 const User = require('../models/user.models.js');
-const nodemailer = require('nodemailer');
+const { sendMembershipApprovalEmail } = require('../services/emailsend.js');
 
 async function getPendingPayments(req, res) {
   try {
@@ -36,30 +36,12 @@ async function approvePaymentRequest(req, res) {
     user.isPremium = true;
     await user.save();
 
-    // send notification email
+    // Send approval email using Resend
     try {
-      const transporter = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT ? parseInt(process.env.EMAIL_PORT, 10) : 587,
-        secure: process.env.EMAIL_SECURE === 'true',
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS
-        }
-      });
-
-      const mailOptions = {
-        from: process.env.SENDER_EMAIL,
-        to: user.email,
-        subject: 'Membership Approved — SHU Carpool',
-        html: `<p>Hi ${user.firstName} ${user.lastName},</p>
-               <p>Your membership payment has been approved. You can now use SHU Carpool without restrictions.</p>
-               <p>Thank you,<br/>SHU Carpool Team</p>`
-      };
-
-      await transporter.sendMail(mailOptions);
+      await sendMembershipApprovalEmail(user.email, user.firstName, user.lastName);
     } catch (emailErr) {
       console.error('Failed to send approval email:', emailErr);
+      // Don't fail the approval if email fails - still mark as approved
     }
 
     return res.status(200).json({ message: 'Payment approved and user upgraded to premium.' });
