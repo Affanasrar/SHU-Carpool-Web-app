@@ -1,18 +1,68 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Pay Membership Fee</title>
-  </head>
-  <body>
-    <h1>Pay Membership Fee (250 PKR)</h1>
-    <% if (error) { %>
-      <p style="color:red"><%= error %></p>
-    <% } %>
-    <form action="/pay-membership" method="post" enctype="multipart/form-data">
-      <label>Transaction ID: <input type="text" name="transactionId" required /></label><br/>
-      <label>Proof Image (optional): <input type="file" name="proofImage" accept="image/*" /></label><br/>
-      <button type="submit">Submit Payment Request</button>
-    </form>
-  </body>
+<html lang="en">
+
+<head>
+    <%- include('partials/fonts') %>
+        <title>Pay Membership Fee</title>
+        <link rel="stylesheet" href="/style.css">
+</head>
+
+<body class="font-[Inter] bg-gray-100">
+
+    <header class="bg-[#6d74fc] w-full py-4 px-6 rounded-b-xl flex items-center">
+        <a class="text-white text-lg cursor-pointer" id="backPage">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                    d="M12.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 1.414L8.414 10l4.293 4.293a1 1 0 010 1.414z"
+                    clip-rule="evenodd" />
+            </svg>
+        </a>
+        <h1 class="text-white text-center text-2xl font-semibold flex-grow">Pay Membership Fee</h1>
+    </header>
+
+    <div class="flex flex-col items-center min-h-screen">
+        <div class="w-full md:max-w-md max-w-sm p-6 mt-8">
+            <h2 class="text-2xl font-bold text-[#6d74fc] mb-2">Membership Fee</h2>
+            <p class="text-gray-600 text-sm mb-6">250 PKR</p>
+
+            <% if (error) { %>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6" role="alert">
+                    <span class="block sm:inline"><%= error %></span>
+                </div>
+            <% } %>
+
+            <form action="/pay-membership" method="post" enctype="multipart/form-data" class="space-y-6">
+                <div>
+                    <label for="transactionId" class="text-sm font-medium leading-6 text-gray-900">Transaction ID</label>
+                    <div class="mt-2">
+                        <input id="transactionId" type="text" name="transactionId" required
+                            class="w-full border-b-2 border-gray-300 py-2 focus:outline-none focus:border-[#6d74fc] placeholder:text-gray-400"
+                            placeholder="Enter transaction ID">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="proofImage" class="text-sm font-medium leading-6 text-gray-900">Proof Image (Optional)</label>
+                    <div class="mt-2">
+                        <input id="proofImage" type="file" name="proofImage" accept="image/*"
+                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#6d74fc] file:text-white file:cursor-pointer">
+                    </div>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-[#6d74fc] text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition duration-200">
+                    Submit Payment Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('backPage').addEventListener('click', function() {
+            window.history.back();
+        });
+    </script>
+
+</body>
+
 </html>
