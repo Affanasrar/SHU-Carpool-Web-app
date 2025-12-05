@@ -298,7 +298,18 @@ function confirmRide(rideId) {
                 return;
             }
         }
-        
+
+        // Handle membership check 403 which returns JSON with redirect
+        if (response.status === 403) {
+            return response.json().then(errData => {
+                if (errData && errData.redirect) {
+                    window.location.href = errData.redirect;
+                    return Promise.reject(new Error(errData.message || 'Membership required'));
+                }
+                throw new Error(errData.message || 'Forbidden');
+            });
+        }
+
         if (!response.ok) {
             return response.json().then(errorData => {
                 console.log(errorData.message)

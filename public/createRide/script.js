@@ -189,7 +189,7 @@ if(submitBtn) {
           }),
           redirect: 'manual' // Don't auto-follow redirects
         }).then(response => {
-          // Check for redirect to payment page (membership required)
+          // Check for server-side redirect via Location header
           if (response.status === 303 || response.status === 302 || response.status === 307) {
             const location = response.headers.get('Location');
             if (location && location.includes('/pay-membership')) {
@@ -197,7 +197,18 @@ if(submitBtn) {
               return;
             }
           }
-          
+
+          // Handle membership check 403 which returns JSON with redirect
+          if (response.status === 403) {
+            return response.json().then(errData => {
+              if (errData && errData.redirect) {
+                window.location.href = errData.redirect;
+                return Promise.reject(new Error(errData.message || 'Membership required'));
+              }
+              throw new Error(errData.message || 'Forbidden');
+            });
+          }
+
           if (!response.ok) {
             return response.json().then(errorData => {
               throw new Error(errorData.message || 'Something went wrong');

@@ -14,7 +14,7 @@ async function checkMembership(req, res, next) {
       if (req.headers.accept && req.headers.accept.includes('text/html')) {
         return res.redirect('/pay-membership');
       }
-      return res.status(403).json({ message: 'Free trial over. Please pay membership fee.' });
+      return res.status(403).json({ message: 'Free trial over. Please pay membership fee.', redirect: '/pay-membership' });
     }
 
     return next();
