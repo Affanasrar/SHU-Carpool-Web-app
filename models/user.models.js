@@ -38,6 +38,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  // New fields for membership flow
+  ridesCompleted: {
+    type: Number,
+    default: 0
+  },
+  isPremium: {
+    type: Boolean,
+    default: false
+  },
   resetToken: {
     type: String
   },

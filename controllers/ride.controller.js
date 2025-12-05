@@ -425,9 +425,19 @@ module.exports.completeRide = async (req, res, next) => {
         ride.status = "completed";
         await ride.save();
 
-        return res.status(200).json({
-            message: "Ride completed successfully!"
-        });
+            // Increment ridesCompleted for driver and passengers
+            try {
+                await User.findByIdAndUpdate(ride.driver, { $inc: { ridesCompleted: 1 } });
+                if (ride.passengers && ride.passengers.length > 0) {
+                    await User.updateMany({ _id: { $in: ride.passengers } }, { $inc: { ridesCompleted: 1 } });
+                }
+            } catch (incErr) {
+                console.error('Failed to increment ridesCompleted:', incErr);
+            }
+
+            return res.status(200).json({
+                message: "Ride completed successfully!"
+            });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while completing the ride' });

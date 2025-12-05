@@ -16,6 +16,8 @@ const vehicleRoutes = require('./routes/vehicle.routes.js');
 const userRoutes = require('./routes/user.routes.js');
 const complaintRoutes = require('./routes/complaint.routes.js');
 const rideRoutes = require('./routes/ride.routes.js');
+const adminRoutes = require('./routes/admin.routes.js');
+const paymentRoutes = require('./routes/payment.routes.js');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -43,6 +45,8 @@ app.use('/', userRoutes);
 app.use('/vehicle',vehicleRoutes);
 app.use('/ride',rideRoutes);
 app.use('/help',complaintRoutes);
+app.use('/admin', adminRoutes);
+app.use('/', paymentRoutes);
 
 app.use(express.static(path.join(__dirname, "public"), { 
     setHeaders: (res, path) => {
