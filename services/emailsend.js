@@ -1,5 +1,15 @@
 const { Resend } = require('resend');
 
+// Ensure `from` is a valid format: "Name <email@example.com>".
+function getFormattedSender() {
+    const raw = (process.env.SENDER_EMAIL || '').trim();
+    if (!raw) return '';
+    // Extract email if already in "Name <email>" or just email
+    const emailOnly = raw.replace(/^.*<\s*/, '').replace(/\s*>.*$/, '').trim();
+    // Fallback name
+    const name = process.env.SENDER_NAME || 'SHU CarPool';
+    return `${name} <${emailOnly}>`;
+}
 async function sendemail(Url, email, firstName, lastName) {
 
   const resend = new Resend(process.env.RESEND_EMAIL_API_KEY);
@@ -52,12 +62,12 @@ async function sendemail(Url, email, firstName, lastName) {
 </html>
 `;
 
-  await resend.emails.send({
-    from: process.env.SENDER_EMAIL,
-    to: email,
-    subject: 'Password Reset Request',
-    html: emailTemplate
-  });
+    await resend.emails.send({
+        from: getFormattedSender(),
+        to: email,
+        subject: 'Password Reset Request',
+        html: emailTemplate
+    });
 }
 
 async function sendMembershipApprovalEmail(email, firstName, lastName) {
@@ -137,7 +147,7 @@ async function sendMembershipApprovalEmail(email, firstName, lastName) {
             <li>Track your ride history</li>
         </ul>
         <p>
-            <a href="${process.env.CLIENT_URL || 'https://shucarpool.com'}/home" class="cta">Go to SHU Carpool</a>
+            <a href="${process.env.CLIENT_URL || 'https://shu-carpool.onrender.com/home'}/home" class="cta">Go to SHU Carpool</a>
         </p>
         <p style="margin-top: 32px; color: #999; font-size: 12px;">
             If you have any questions or need support, please contact us.
@@ -150,12 +160,12 @@ async function sendMembershipApprovalEmail(email, firstName, lastName) {
 
     console.log(`Sending membership approval email to ${email}...`);
     
-    const response = await resend.emails.send({
-      from: process.env.SENDER_EMAIL,
-      to: email,
-      subject: '✓ Your SHU Carpool Membership is Approved!',
-      html: emailTemplate
-    });
+        const response = await resend.emails.send({
+            from: getFormattedSender(),
+            to: email,
+            subject: '✓ Your SHU Carpool Membership is Approved!',
+            html: emailTemplate
+        });
 
         console.log(`Resend response for ${email}:`, response);
 
