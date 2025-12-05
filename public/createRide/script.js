@@ -186,8 +186,18 @@ if(submitBtn) {
             fare: Number(fareOfferRide.value),
             seats: Number(seatsOfferRide.value),
             vehicleDetails: vehicleOfferRide.value
-          })
+          }),
+          redirect: 'manual' // Don't auto-follow redirects
         }).then(response => {
+          // Check for redirect to payment page (membership required)
+          if (response.status === 303 || response.status === 302 || response.status === 307) {
+            const location = response.headers.get('Location');
+            if (location && location.includes('/pay-membership')) {
+              window.location.href = '/pay-membership';
+              return;
+            }
+          }
+          
           if (!response.ok) {
             return response.json().then(errorData => {
               throw new Error(errorData.message || 'Something went wrong');

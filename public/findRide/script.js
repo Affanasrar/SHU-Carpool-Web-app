@@ -285,10 +285,20 @@ function confirmRide(rideId) {
     fetch('/ride/confirmRide', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json' // Set the content type to JSON
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ rideId: rideId })
+        body: JSON.stringify({ rideId: rideId }),
+        redirect: 'manual' // Don't auto-follow redirects
     }).then(response => {
+        // Check for redirect to payment page (membership required)
+        if (response.status === 303 || response.status === 302 || response.status === 307) {
+            const location = response.headers.get('Location');
+            if (location && location.includes('/pay-membership')) {
+                window.location.href = '/pay-membership';
+                return;
+            }
+        }
+        
         if (!response.ok) {
             return response.json().then(errorData => {
                 console.log(errorData.message)
@@ -297,7 +307,9 @@ function confirmRide(rideId) {
         }
         return response.json();
     }).then(data => {
-        window.location.href = "/ride/joined"
+        if (data) { // Only navigate if we got data (not a redirect)
+            window.location.href = "/ride/joined";
+        }
     }).catch((error) => {
         console.log(error)
         showError(error.message);
