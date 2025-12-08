@@ -20,7 +20,7 @@ const registerSchema = z.object({
     .regex(/^\d{11}$/, "Please enter a valid email"),
   
   department: z.string().trim().min(1, "Please enter department")
-  .regex(departmentRegex, "Please enter valid deperatment"),
+  .regex(departmentRegex, "Please enter valid department name"),
 });
 
 const loginSchema = z.object({

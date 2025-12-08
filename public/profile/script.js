@@ -27,7 +27,7 @@ function getPersonalDetails() {
             userName.innerHTML = data.user.firstName + " "+ data.user.lastName;
             joiningDate.innerHTML = formatDate(data.user.createdAt);      
 
-            let values = ["Email", "Phone", "Deperatment"]
+            let values = ["Email", "Phone", "department"]
 
             for(let i=0;i<3; i++){
                 let div= document.createElement('div');

@@ -62,13 +62,20 @@ function closeErrorPage() {
 }
 
 const departments = [
-    "Computer Science",
     "Artificial Intelligence",
     "Software Engineering",
-    "Bio-Medical Engineering",
+    "Cyber Security",
+    "Data Science",
+    "Biomedical Engineering",
     "Pharmacy",
-    "Acounting and Fianance",
-    "BBA"
+    "Accounting and Finance",
+    "Business Administration",
+    "Biosciences",
+    "Psychology",
+    "Social Sciences",
+    "Cosmetic Sciences",
+    "Digital Arts and Creative Design",
+    "Sports and Fitness"
 ];
     
 function autocomplete(inputElement) {
