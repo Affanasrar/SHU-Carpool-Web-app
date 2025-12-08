@@ -62,6 +62,7 @@ function closeErrorPage() {
 }
 
 const departments = [
+    "Computer Science",
     "Artificial Intelligence",
     "Software Engineering",
     "Cyber Security",
