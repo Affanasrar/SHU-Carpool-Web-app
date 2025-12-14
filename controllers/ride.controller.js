@@ -8,6 +8,7 @@ module.exports.createRide = async (req, res, next) => {
     const { from, to, datetime, fare, seats, vehicleDetails } = req.body;
 
     try {
+        console.log(`createRide called by user=${req.user && req.user.id} body=${JSON.stringify(req.body)}`);
         const ispending = await rideModel.findOne({ driver: req.user.id, status: { $in: ["pending", "progress"] } });
         if (ispending) {
             return res.status(400).json({
