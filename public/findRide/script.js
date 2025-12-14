@@ -54,7 +54,8 @@ function connectToSocketAndFetchRides() {
             newRidescount++;
             ridenotificationBadge.innerHTML = `${newRidescount} new ride available`;
             ridenotificationBadge.classList.remove("hidden");
-
+            // Immediately refresh rides list so other users see the new ride
+            socket.emit('fetchRides', { filters: currentFilters });
         });
         socket.on('decreaseSeat', (rideId) => {
             const rideElement = ridesBoxes.querySelector(`#id${rideId}`);

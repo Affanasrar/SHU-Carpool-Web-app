@@ -6,10 +6,17 @@ function initializeSocket(server) {
     io = socketIo(server);
 
     io.on('connection', (socket) => {
-
+        console.log('Socket connected:', socket.id);
+        
         socket.on('fetchRides', async ({ filters }) => {
-            const rides = await rideController.getAvailableRides(filters);
-            socket.emit('rides', rides);
+            console.log(`fetchRides requested by ${socket.id} with filters:`, filters);
+            try {
+                const rides = await rideController.getAvailableRides(filters);
+                socket.emit('rides', rides);
+            } catch (err) {
+                console.error('Error in fetchRides handler:', err);
+                socket.emit('rides', {});
+            }
         });
 
         socket.on('fetchRidebyId', async ({id})=>{
@@ -22,6 +29,7 @@ function initializeSocket(server) {
         })
 
         socket.on('disconnect', () => {
+            console.log('Socket disconnected:', socket.id);
         });
     });
 }

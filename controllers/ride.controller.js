@@ -46,7 +46,18 @@ module.exports.createRide = async (req, res, next) => {
         });
 
         const io = getIoInstance();
+        // Notify clients a new ride was created
         io.emit('newRide');
+        console.log('Emitted newRide event');
+
+        // Also send updated rides list immediately so clients refresh UI
+        try {
+            const updatedRides = await module.exports.getAvailableRides({});
+            io.emit('rides', updatedRides);
+            console.log('Emitted updated rides to clients');
+        } catch (emitErr) {
+            console.error('Failed to emit updated rides after createRide:', emitErr);
+        }
 
         return res.status(200).json({
             message: "Ride Created successfully."
